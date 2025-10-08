@@ -14,10 +14,9 @@ public class KafkaConsumerService {
         this.emailService = emailService;
     }
 
-    // Ajuste o tópico abaixo para o mesmo tópico usado pelo produtor (ex.: "payment_order_processed")
+
     @KafkaListener(topics = "payment_order_processed", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
     public void consumeMessage(TransactionNotificationDTO dto) throws MessagingException {
-        // usa o método específico de payment recebido
         emailService.sendPaymentReceivedEmail(dto.email(), dto.name());
     }
 }

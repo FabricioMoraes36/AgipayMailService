@@ -146,9 +146,6 @@ public class EmailService {
                 <li><strong>Gerenciar suas finanças</strong> de um jeito simples e intuitivo.</li>
             </ul>
             <p>Para começar, que tal explorar a sua conta? Clique no botão abaixo para acessar a sua plataforma.</p>
-            <div class="button-container">
-                <a href="URL_DA_SUA_PLATAFORMA" class="button">Acessar Minha Conta</a>
-            </div>
             <p>Se precisar de ajuda ou tiver alguma dúvida, não hesite em entrar em contato com nossa equipe de suporte.</p>
             <p>Até breve!</p>
             <p>Equipe AgiPay</p>
@@ -168,6 +165,7 @@ public class EmailService {
     }
 
     public void sendPaymentReceivedEmail(String to, String name) throws MessagingException {
+        String imageUrl = "https://i.imgur.com/zRVZIBC.png";
         String htmlContent = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -190,6 +188,7 @@ public class EmailService {
         border-radius: 10px;
         padding: 26px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-align: center;
     }
     h1 {
         color: #0b5ed7;
@@ -198,63 +197,44 @@ public class EmailService {
         line-height: 1.1;
     }
     p {
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.6;
         margin: 10px 0;
     }
-    .summary {
-        background: #f0f8ff;
-        border-left: 5px solid #0b5ed7;
-        padding: 14px;
-        border-radius: 6px;
-        margin-top: 14px;
-        font-size: 18px;
-    }
-    .button {
-        display: inline-block;
-        background: #0b5ed7;
-        color: #ffffff;
-        text-decoration: none;
-        padding: 14px 22px;
-        border-radius: 8px;
-        font-size: 18px;
-        font-weight: 600;
-        margin-top: 18px;
+    .image {
+        margin: 18px 0;
     }
     .footer {
-        font-size: 15px;
+        font-size: 14px;
         color: #555;
         margin-top: 20px;
     }
     @media (max-width: 480px) {
         h1 { font-size: 26px; }
-        p { font-size: 18px; }
-        .button { font-size: 16px; padding: 12px 18px; }
+        p { font-size: 16px; }
     }
 </style>
 </head>
 <body>
   <div class="container">
     <h1>Olá, %s</h1>
-    <p>Seu pagamento foi recebido com sucesso. Obrigado por usar a AgiPay.</p>
+    <p>Seu pagamento foi recebido com sucesso. Você recebeu o pagamento da cobrança gerada.</p>
 
-    <div class="summary" role="note" aria-label="Resumo do pagamento">
-      <p><strong>Status:</strong> Pago</p>
-      <p><strong>Valor:</strong> —</p>
-      <p><strong>Data:</strong> —</p>
+    <div class="image" role="img" aria-label="Confirmação de pagamento">
+      <img src="%s" alt="Pagamento recebido" style="max-width:100%%;height:auto;border-radius:8px;">
     </div>
-
-    <a href="#" class="button" role="button" aria-label="Ver detalhes da transação">Ver detalhes da transação</a>
 
     <p class="footer">Se precisar de ajuda, responda este e‑mail ou acesse nosso suporte.</p>
   </div>
 </body>
 </html>
-""".formatted(name);
+""".formatted(name, imageUrl);
 
         sendVerificationEmail(to, EmailSubject.PAYMENT_RECEIVED.getSubject(), htmlContent);
     }
+
     public void sendPaymentSuccessEmail(String to, String name) throws MessagingException {
+        String imageUrl = "https://i.imgur.com/zeaBP0l.png";
         String htmlContent = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -277,6 +257,7 @@ public class EmailService {
         border-radius: 12px;
         padding: 28px;
         box-shadow: 0 6px 20px rgba(17,24,39,0.06);
+        text-align: center;
     }
     h1 {
         color: #0a64c8;
@@ -285,66 +266,38 @@ public class EmailService {
         line-height: 1.05;
     }
     p {
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.6;
         margin: 10px 0;
     }
-    .highlight {
-        background: #fff8e1;
-        border-left: 6px solid #f6b73c;
-        padding: 14px;
-        border-radius: 8px;
-        font-size: 18px;
-        margin-top: 14px;
-    }
-    .details {
-        margin-top: 16px;
-        font-size: 19px;
-    }
-    .button {
-        display: inline-block;
-        background: #0a64c8;
-        color: #ffffff;
-        text-decoration: none;
-        padding: 14px 24px;
-        border-radius: 10px;
-        font-size: 18px;
-        font-weight: 700;
-        margin-top: 20px;
+    .image {
+        margin: 18px 0;
     }
     .footer {
-        font-size: 15px;
+        font-size: 14px;
         color: #444;
         margin-top: 22px;
     }
     @media (max-width: 480px) {
         h1 { font-size: 28px; }
-        p { font-size: 18px; }
-        .button { font-size: 16px; padding: 12px 18px; }
+        p { font-size: 16px; }
     }
 </style>
 </head>
 <body>
   <div class="container" role="article" aria-label="Confirmação de pagamento">
     <h1>Olá, %s</h1>
-    <p>Confirmamos o recebimento do seu pagamento. Agradecemos por utilizar a AgiPay.</p>
+    <p>Confirmamos o recebimento do pagamento. Você efetuou o pagamento da cobrança gerada.</p>
 
-    <div class="highlight" role="note" aria-label="Resumo">
-      <div class="details">
-        <p><strong>Status:</strong> Pago</p>
-        <p><strong>Valor:</strong> —</p>
-        <p><strong>Data:</strong> —</p>
-        <p><strong>Referência:</strong> —</p>
-      </div>
+    <div class="image" role="img" aria-label="Confirmação de pagamento">
+      <img src="%s" alt="Pagamento confirmado" style="max-width:100%%;height:auto;border-radius:8px;">
     </div>
-
-    <a href="#" class="button" role="button" aria-label="Ver detalhes da transação">Ver detalhes da transação</a>
 
     <p class="footer">Se precisar de ajuda, responda este e‑mail ou acesse nosso suporte.</p>
   </div>
 </body>
 </html>
-""".formatted(name);
+""".formatted(name, imageUrl);
 
         sendVerificationEmail(to, EmailSubject.PAYMENT_SUCESS.getSubject(), htmlContent);
     }

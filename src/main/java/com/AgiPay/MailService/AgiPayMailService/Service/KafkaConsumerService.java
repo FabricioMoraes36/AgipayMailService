@@ -14,19 +14,20 @@ public class KafkaConsumerService {
         this.emailService = emailService;
     }
     // Consome emails de pagamento
-    @KafkaListener(topics = "payment_order_processed", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
+    @KafkaListener(topics = "payment_order_processed.sender", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
     public void consumePayment(TransactionNotificationDTO dto) throws MessagingException {
-        emailService.sendPaymentReceivedEmail(dto.email(), dto.name());
+        emailService.sendPaymentSuccessEmail(dto.email(), dto.name()); // corrigido
     }
 
-    // Consome emails de boas-vindas
+    // Boas-vindas (permanece)
     @KafkaListener(topics = "welcome_email", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
     public void consumeWelcome(TransactionNotificationDTO dto) throws MessagingException {
         emailService.sendWelcomeEmail(dto.email(), dto.name());
     }
-    // Consome emails de sucesso de pagamento
-    @KafkaListener(topics = "payment_success", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
+
+    // Mensagem para quem recebeu: enviar notificação de recebimento
+    @KafkaListener(topics = "payment_order_processed.receiver", groupId = "email-group", containerFactory = "transactionListenerContainerFactory")
     public void consumePaymentSuccess(TransactionNotificationDTO dto) throws MessagingException {
-        emailService.sendPaymentSuccessEmail(dto.email(), dto.name());
+        emailService.sendPaymentReceivedEmail(dto.email(), dto.name()); // corrigido
     }
 }

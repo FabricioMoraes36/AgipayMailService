@@ -18,6 +18,10 @@ repositories {
 	mavenCentral()
 }
 
+bootJar {
+	archiveFileName = 'app.jar'
+}
+
 dependencies {
     implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
